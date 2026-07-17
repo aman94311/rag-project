@@ -14,7 +14,11 @@ connectDB();
 const app = express();
 
 // Middlewares
-app.use(cors());
+const corsOptions = {};
+if (process.env.FRONTEND_URL) {
+  corsOptions.origin = process.env.FRONTEND_URL.split(',');
+}
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
