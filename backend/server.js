@@ -44,6 +44,15 @@ if (fs.existsSync(frontendDistPath)) {
     res.sendFile(path.join(frontendDistPath, 'index.html'));
   });
 } else {
+  // Root health check for hosting platforms (Render, Railway, etc.)
+  app.get('/', (req, res) => {
+    res.status(200).json({
+      success: true,
+      message: 'Document RAG API is running smoothly (Frontend build not found).',
+      timestamp: new Date()
+    });
+  });
+
   // Fallback Route handler for 404
   app.use((req, res, next) => {
     res.status(404).json({ success: false, message: 'API route not found' });
